@@ -41,6 +41,17 @@ module.exports = {
         })
     },
 
+    rejectInvite : (req, resp) =>{
+        if (!req.query._id) {
+            return resp.send(error('Выберите заявку!'))
+        }
+
+        Invite.findByIdAndRemove(req.query._id, (err)=>{
+            if(err) resp.send(error('ошибка сервера, попробуйте позже'))
+            resp.send()
+        })
+    },
+
     //принять приглашение
     acceptInvite: (req, resp) => {
         if (!req.query._id) {

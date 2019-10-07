@@ -32,6 +32,7 @@ router.get('/personalPage/myGroups/reciveGroups', groupsRoutes.reciveGroups)
 router.get('/personalPage/myGroups/setGroupLists', groupsRoutes.setGroupLists)
 router.get('/personalPage/myGroups/reciveInvites', groupsRoutes.reciveInvites)
 router.get('/personalPage/myGroups/acceptInvite', groupsRoutes.acceptInvite)
+router.get('/personalPage/myGroups/rejectInvite', groupsRoutes.rejectInvite)
 router.get('/personalPage/myGroups/getGroupInfo', groupsRoutes.getGroupInfo)
 router.get('/personalPage/myGroups/groupListsPage', checkAuth, groupsRoutes.groupListsPage)
 

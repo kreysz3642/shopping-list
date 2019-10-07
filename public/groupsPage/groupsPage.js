@@ -37,13 +37,27 @@ $(document).ready(() => {
     $(document).mouseup(function (e) {
         let invite = $(".list-group-item.active");
         let but = $('#acceptInvite')
+        let rejBut = $('#rejectInvite')
         if (!invite.is(e.target) &&
-            invite.has(e.target).length === 0 && !but.is(e.target)) {
+            invite.has(e.target).length === 0 && !but.is(e.target) && !rejBut.is(e.target)) {
             invite.removeClass('active')
         }
     });
 
 
+    $('#rejectInvite').on('click', () =>{
+        let invite = $('.list-group').find('.active')
+        if (invite) {
+            inviteId = $('.list-group').find('.active').attr('id')
+            $.get('myGroups/rejectInvite', {_id : inviteId}, (resp) =>{
+                if(resp.isError) {
+                    showAlert(resp.errorMessage, true)
+                }else{
+                    invite.remove()
+                }
+            })
+        }
+    })
 
     //принять приглашение
     $('#acceptInvite').on('click', () => {
