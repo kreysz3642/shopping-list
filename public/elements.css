@@ -1,0 +1,55 @@
+
+.element{
+    max-width: 250px;
+    max-height: 320px;
+    width: 220px;
+    height: 320px;
+    padding: 10px;
+    margin: 20px
+}
+.elmentFoot{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.listButtons{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+}
+
+.elmentFoot button{
+   margin-left: 5px;
+   width: 100px;
+}
+
+
+
+.element .card-body{
+    height: 130px;
+    padding: 10px 10px;
+    overflow: auto;
+    margin: 10px 0;
+
+}
+
+.element{
+    max-height: 100%;
+}
+
+.element h5{
+    font-size: 1.1rem;
+}
+
+.element p{
+    font-size: 0.8rem;
+    overflow: auto;
+}
+
+.element img{
+    margin: 0 auto;
+    margin-top: 10px;
+    width: 110px;
+    height: 98px;
+}

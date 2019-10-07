@@ -1,0 +1,11 @@
+.alert{
+    height: 50px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    opacity: 0;
+    min-width: 350px;
+}

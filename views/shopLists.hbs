@@ -1,0 +1,64 @@
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+    aria-hidden="true">
+    <div class="modal-dialog" "id=null" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="tasks">
+                </div>
+
+
+                <div class="input-group addTasks">
+                    <input type="text" class="form-control" aria-label="Text input with checkbox">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-success" type="button"
+                            id="inputGroupFileAddon04">Добавить</button>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button id="closeTasksListButton" type="button" class="btn btn-secondary"
+                    data-dismiss="modal">Закрыть</button>
+                <button id="modalSaveButton" type="button" class="btn btn-primary">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="content">
+    <div class="menuAndListArea">
+        <div class="Menu">
+            <div class="addListMenu">
+                <p>Добавить список</p>
+                <div class="dropdown-divider"></div>
+                <div class="addListInput">
+                    <p>Введите имя списка</p>
+                    <input type="text" id="listsInput" class="form-control" id="basic-url"
+                        aria-describedby="basic-addon3">
+                </div>
+                <div class="addListInput">
+                    <p>Описание к списку</p>
+                    <textarea type="text" id="listsInputDescriotion" class="form-control" id="basic-url"
+                        aria-describedby="basic-addon3"></textarea>
+                </div>
+
+
+                <div class="dropdown-divider"></div>
+                <button id="acceptButton" type="button" class="btn btn-outline-success">Создать</button>
+            </div>
+        </div>
+
+
+
+
+        <div class="listsArea">
+        </div>
+    </div>

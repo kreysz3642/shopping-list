@@ -1,0 +1,25 @@
+
+.menuAndListArea{
+    display: grid;
+    grid-template-columns:  1fr 3fr;
+    margin: 20px 100px;
+}
+
+
+
+
+
+
+.listsArea{
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 250px))
+    
+}
+
+
+
+
+#myModal .addTasks{
+    margin-top: 20px;
+}

@@ -1,0 +1,38 @@
+.bodyArea{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0px auto;
+}
+
+.bodyArea .enterReInfo{
+    width: 450px;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    margin: 10px 0;
+}
+
+.bodyArea .enterReInfo input{
+    height: 50px;
+}
+
+
+
+
+
+.bodyArea .enterReInfo p{
+    display: block;
+    min-width: 150px;
+    font-size: 18px;
+}
+
+.bodyArea button{
+    width: 450px;
+    height: 50px;
+    margin-top: 20px;
+}
+ .bodyArea > h2 {
+     margin-bottom: 40px;
+ }

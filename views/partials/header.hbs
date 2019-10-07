@@ -1,0 +1,20 @@
+<nav class="navbar navbar-dark header">
+  {{#if isMain}}
+  {{> mainHeader}}
+  {{/if}}
+
+  {{#if isUserLogin}}
+  {{> personalPageHeader}}
+  {{/if}}
+
+  {{#if isMain}}
+  <div class="headerButtons">
+    <button id="headerRegButton" type="button" class="btn btn-outline-success">Ristration</button>
+    <button id="headerLogButton" type="button" class="btn btn-outline-success" data-toggle="modal"
+      data-target="#exampleModalCenter">Login</button>
+  </div>
+  {{/if}}
+  {{#if isUserLogin}}
+  {{> userInfo}}
+  {{/if}}
+</nav>

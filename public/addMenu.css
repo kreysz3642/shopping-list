@@ -1,0 +1,44 @@
+.addListMenu{
+    margin-top: 20px;
+    display: block;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 3px;
+    background-color: #fff;
+    padding: 10px;
+}
+
+.addListMenu p{
+    display: block;
+    margin-bottom: 0px;
+    margin-left: 10px;
+}
+
+.addListInput{
+    display: grid;
+    margin: 10px;
+    min-width: 100px;
+}
+
+.addListInput textarea{
+    min-height: 100px;
+    resize: none;
+}
+
+
+.addListInput p{
+    margin-bottom: 5px;
+}
+
+.addListInput .form-control{
+    height: 30px;
+}
+
+.dropdown-divider{
+    border-top: 2px solid #e9ecef;
+}
+
+
+#acceptButton{
+    min-width: 100px;
+    margin: 5px 10px;
+}
