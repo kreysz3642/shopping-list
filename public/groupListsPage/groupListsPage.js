@@ -93,7 +93,6 @@ $(document).ready(() => {
 
         id = $(this).parent().parent().parent().parent().attr('id')
 
-        console.log(id)
         $.get('groupListsPage/deleteList', {
             id: id
         }, (resp) => {

@@ -3,7 +3,7 @@ const Group = require('../models/Schemas/group').Group
 const User = require('../models/Schemas/user').User
 const groupListsData = require('../models/pagesInfo/groupListsPage')
 const Invite = require('../models/Schemas/invite').invite
-const error = require('../errors/error')
+const myError = require('../errors/error')
 
 
 module.exports = {
@@ -31,6 +31,36 @@ module.exports = {
         })
     },
 
+    outGroup: (req, resp) => {
+
+        User.findById(req.session.user, (err, user) => {
+            let groupPos = -1
+            if (err) return resp.send(myError('ошибка сервера, попробуйте позже'))
+
+
+            for (let i = 0; user.userGroups.length > i; i++) {
+                if (user.userGroups[i]._id == req.query.id) {
+                    groupPos = i
+                }
+            }
+
+            Group.findById(user.userGroups[groupPos], (err, group) =>{
+                if (err) return resp.send(myError('ошибка сервера, попробуйте позже'))
+                if(group.creatorId == req.session.user) return resp.send(myError('Вы не можете выйти из созданной вами группы!'))
+
+                user.userGroups.splice(groupPos, 1)
+                user.save((err) => {
+                    if (err) resp.send(myError('ошибка сервера, попробуйте позже'))
+                })
+                resp.send()
+
+
+            })
+        })
+
+
+    },
+
     reciveInvites: (req, resp) => {
         User.findById(req.session.user, (err, user) => {
             Invite.find({
@@ -41,13 +71,13 @@ module.exports = {
         })
     },
 
-    rejectInvite : (req, resp) =>{
+    rejectInvite: (req, resp) => {
         if (!req.query._id) {
             return resp.send(error('Выберите заявку!'))
         }
 
-        Invite.findByIdAndRemove(req.query._id, (err)=>{
-            if(err) resp.send(error('ошибка сервера, попробуйте позже'))
+        Invite.findByIdAndRemove(req.query._id, (err) => {
+            if (err) resp.send(error('ошибка сервера, попробуйте позже'))
             resp.send()
         })
     },

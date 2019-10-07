@@ -8,8 +8,11 @@ $(document).ready(() => {
             "<p class=\"card-text\">" + data.groupDescription + "</p>" +
             "</div><div class=\"elmentFoot\">" +
             "<p class=\"card-text\"><small class=\"text-muted\">" + data.creatorUserName + "</small></p>" +
+            "<div class=\"listButtons\" >"+
             "<button  type=\"button\"" +
-            "class=\"btn btn-outline-success\">Изменить</button></div></div></div>"
+            "class=\"btn btn-danger outButton\">Выйти</button>" +
+            "<button  type=\"button\"" +
+            "class=\"btn btn-outline-success changeButton\">Изменить</button></div></div></div></div>"
 
         $('.groupsArea').append(htmlStr)
     }
@@ -131,8 +134,22 @@ $(document).ready(() => {
 
 
 
-    $('.groupsArea').on('click', '.btn', function () {
-        let id = $(this).parent().parent().parent().attr('id');
+    $('.groupsArea').on('click', '.outButton', function () {
+        let id = $(this).parent().parent().parent().parent().attr('id');
+        $.get('myGroups/outGroup', {
+            id: id
+        }, function (resp) {
+            if(resp.isError){
+                showAlert(resp.errorMessage, true)
+            }else{
+                $('.elementArea#' + id).detach()
+            }
+        })
+    })
+
+
+    $('.groupsArea').on('click', '.changeButton', function () {
+        let id = $(this).parent().parent().parent().parent().attr('id');
         $.get('myGroups/setGroupLists', {
             id: id
         }, function (data) {
