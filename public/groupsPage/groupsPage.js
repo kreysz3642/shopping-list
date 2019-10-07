@@ -19,10 +19,11 @@ $(document).ready(() => {
         $('.list-group').append(htmlStr)
     }
 
+
     $.get('myGroups/reciveGroups', (resp) => {
-        if(resp.isError){
-            if(err) resp.send(myError('ошибка сервера, попробуйте позже'))
-        }else{
+        if (resp.isError) {
+            if (err) resp.send(myError('ошибка сервера, попробуйте позже'))
+        } else {
             for (let i = 0; resp.length > i; i++) {
                 addGroupElement(resp[i])
             }
@@ -30,31 +31,44 @@ $(document).ready(() => {
     })
 
     $('.list-group').on('click', '.list-group-item', function () {
-        $('.list-group li').each(() => {
-            $(this).removeClass('active')
-        })
         $(this).addClass('active')
     })
 
+    $(document).mouseup(function (e) {
+        let invite = $(".list-group-item.active");
+        let but = $('#acceptInvite')
+        if (!invite.is(e.target) &&
+            invite.has(e.target).length === 0 && !but.is(e.target)) {
+            invite.removeClass('active')
+        }
+    });
+
+
+
+    //принять приглашение
     $('#acceptInvite').on('click', () => {
         let invite = $('.list-group').find('.active')
         if (invite) {
             inviteId = $('.list-group').find('.active').attr('id')
-            $.get('myGroups/acceptInvite', {_id : inviteId}, (resp) => {
-                if(resp.errorMessage){
-
-                }else{
-                    invite.remove()
-                    $('myGroups/getGroupInfo', {groupId : resp.groupId}, (resp)=>{
-                        if(resp.errorMessage){
-
-                        }else{
-                            addGroupElement(resp)
-                        }
-                    })
+            $.get('myGroups/acceptInvite', {
+                    _id: inviteId
+                }, (resp) => {
+                    if (resp.isError) {
+                        showAlert(resp.errorMessage, true)
+                    } else {
+                        invite.remove()
+                        $.get('myGroups/getGroupInfo', {
+                            groupId: resp
+                        }, (resp) => {
+                            if (resp.isError) {
+                                showAlert(resp.errorMessage, true)
+                            } else {
+                                addGroupElement(resp)
+                            }
+                        })
+                    }
                 }
-            }
-                
+
             )
         }
     })
@@ -68,6 +82,7 @@ $(document).ready(() => {
         }
     }))
 
+    //добавить группу
     $('#acceptButton').on('click', () => {
         let groupName = $('#addGroupInput').val()
         let groupDescription = $('#addGroupDescription').val()
@@ -81,13 +96,17 @@ $(document).ready(() => {
             data: JSON.stringify(groupData),
             contentType: 'application/json; charset=utf-8',
             success: function (resp) {
-                let data = {
-                    _id: resp.id,
-                    creatorUserName: resp.user,
-                    ...groupData
+                if (resp.isError) {
+                    showAlert(resp.errorMessage, true)
+                } else {
+                    let data = {
+                        _id: resp.id,
+                        creatorUserName: resp.user,
+                        ...groupData
 
+                    }
+                    addGroupElement(data)
                 }
-                addGroupElement(data)
             }
         });
 

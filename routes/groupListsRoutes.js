@@ -93,8 +93,15 @@ module.exports = {
 
     deleteList : (req, resp) =>{
         Group.findById(req.session.groupId, (err, group) =>{
+            let posList = -1;
             if (err) return resp.send(myError('ошибка сервера, попробуйте позже'))
-            let posList = group.listsId.indexOf(req.query.id)
+            for(let i = 0; group.listsId.length > i; i++){
+                if(group.listsId[i]._id == req.query.id){
+                    posList = i;
+                    break;
+                }
+            }
+            if(posList == -1) return resp.send(myError('ошибка сервера, попробуйте позже'))
             if(posList || posList == 0){
                 group.listsId.splice(posList, 1)
             }else{
@@ -118,6 +125,9 @@ module.exports = {
             return resp.send(myError("Введите имя пользователя!"))
         }
 
+
+
+
         User.findOne({
             username: req.query.invitedUser
         }, (err, user) => {
@@ -129,6 +139,13 @@ module.exports = {
             } else {
                 resp.send(myError('ошибка сервера, попробуйте позже'))
                 return 
+            }
+
+            for(let i = 0; user.userGroups.length > i; i++){
+                if(user.userGroups[i]._id == req.session.groupId){
+                    resp.send(myError("Пользователь уже состоит в этой группе!"))
+                    return
+                }
             }
 
             Group.findById(req.session.groupId, (err, group) => {
@@ -144,11 +161,19 @@ module.exports = {
                 } else {
                     return resp.send(myError('ошибка сервера, попробуйте позже'))
                 }
-    
-                invite.save((err) => {
-                    if (err) return resp.send(myError('ошибка сервера, попробуйте позже'))
+
+                Invite.findOne({groupId : req.session.groupId, invitedUser: req.query.invitedUser}, (err, inv)=>{
+                    if(inv != null){
+                        return resp.send(myError('Запрос уже создан!'))
+                    }
+
+                    invite.save((err) => {
+                        if (err) return resp.send(myError('ошибка сервера, попробуйте позже'))
+                    })
+                    resp.send("Приглашение отправлено")
+                    
                 })
-                resp.send("Приглашение отправлено")
+    
             })
         
         })

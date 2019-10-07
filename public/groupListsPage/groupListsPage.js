@@ -90,15 +90,17 @@ $(document).ready(() => {
 
     //удаление списка
     $('.listsArea').on('click', '.deleteBtn', function () {
+
         id = $(this).parent().parent().parent().parent().attr('id')
 
+        console.log(id)
         $.get('groupListsPage/deleteList', {
             id: id
         }, (resp) => {
             if(resp.isError){
                 showAlert(resp.errorMessage, true)
             }else{
-                $('#' + id + '').detach()
+                $('.elementArea#' + id).detach()
             }
         })
     });
@@ -122,8 +124,6 @@ $(document).ready(() => {
             id: $('.modal-dialog').attr('id'),
             tasks: tasks
         }
-
-
         $.ajax({
             url: '../shopLists/saveTasks',
             type: 'POST',
@@ -179,6 +179,7 @@ $(document).ready(() => {
 
     //закрытие модального окна
     $('#myModal').on('hide.bs.modal', function () {
+        $('.modal-dialog').attr('id', null)
         $('.tasksInput').each(function (i) {
             $(this).detach();
         })
@@ -201,6 +202,7 @@ $(document).ready(() => {
             } else {
                 showAlert(resp)
             }
+            $('.invitePerson input').val("");
         })
     })
 

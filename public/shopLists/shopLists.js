@@ -94,7 +94,7 @@ $(document).ready(() => {
             if(resp.isError){
                 showAlert(resp.errorMessage, true)
             }else{
-                $('#' + id + '').detach()
+                $('.elementArea#' + id).detach()
             }
         })
     });
@@ -175,6 +175,7 @@ $(document).ready(() => {
 
     $('#myModal').on('hide.bs.modal', function(){
         $('.addTasks .form-control').val("")
+        $('.modal-dialog').attr('id', null)
         $('.tasksInput').each(function(i){
             $(this).detach();
         })

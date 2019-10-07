@@ -13,16 +13,18 @@ module.exports = {
         resp.render('myGroupsPage', data)
     },
 
+
+    //получить список групп
     reciveGroups: (req, resp) => {
         User.findById(req.session.user, (err, user) => {
-            if(err) resp.send(myError('ошибка сервера, попробуйте позже'))
+            if (err) resp.send(myError('ошибка сервера, попробуйте позже'))
             if (user) {
                 Group.find({
                     '_id': {
                         $in: user.userGroups
                     }
                 }, (err, groups) => {
-                    if(err) resp.send(myError('ошибка сервера, попробуйте позже'))
+                    if (err) resp.send(myError('ошибка сервера, попробуйте позже'))
                     resp.send(groups)
                 })
             }
@@ -39,11 +41,16 @@ module.exports = {
         })
     },
 
+    //принять приглашение
     acceptInvite: (req, resp) => {
-        let groupId
+        if (!req.query._id) {
+            return resp.send(error('Выберите заявку!'))
+        }
+
         Invite.findById(req.query._id, (err, invite) => {
             if (!err) {
                 User.findById(req.session.user, (err, user) => {
+                    let groupId
                     if (!err) {
                         groupId = invite.groupId
                         user.userGroups.push(invite.groupId)
@@ -57,27 +64,24 @@ module.exports = {
                         resp.send(error('ошибка сервера, попробуйте позже'))
                         return;
                     }
+                    Invite.deleteOne({
+                        _id: req.query._id
+                    }, (err) => {
+                        if (err) resp.send(error('ошибка сервера, попробуйте позже'))
+                        return;
+                    })
+                    resp.send(groupId)
 
                 })
             } else {
-                resp.send(error('ошибка сервера, попробуйте позже'))
-                return;
+                return resp.send(error('ошибка сервера, попробуйте позже'))
             }
         })
-
-        Invite.deleteOne({
-            _id: req.query._id
-        }, (err) => {
-            if (err) resp.send(error('ошибка сервера, попробуйте позже'))
-            return;
-        })
-
-        resp.send(groupId)
 
     },
 
     getGroupInfo: (req, resp) => {
-        Group.findById(req.groupId, (err, group) => {
+        Group.findById(req.query.groupId, (err, group) => {
             if (!err) {
                 resp.send(group)
             } else {
@@ -86,11 +90,16 @@ module.exports = {
         })
     },
 
+    //добавить группу
     addGroup: (req, resp) => {
+        if (req.body.groupName == "") {
+            return resp.send(error('Введите название группы!'))
+        }
         if (req.body) {
             User.findOne({
                 _id: req.session.user
             }, (err, user) => {
+                if (err) return resp.send(error('ошибка сервера, попробуйте позже'))
                 if (user) {
                     let group = new Group({
                         groupName: req.body.groupName,
@@ -98,21 +107,22 @@ module.exports = {
                         creatorId: user._id,
                         creatorUserName: user.username
                     })
-                    group.save((err, list, affected) => {
+                    group.save((err, list) => {
+                        if (err) return resp.send(error('ошибка сервера, попробуйте позже'))
                         user.userGroups.push(list._id)
 
-                        user.save((err, list, affected) => {})
-
-                        resp.send({
-                            id: list._id,
-                            user: user.username
+                        user.save((err) => {
+                            if (err) return resp.send(error('ошибка сервера, попробуйте позже'))
+                            resp.send({
+                                id: list._id,
+                                user: user.username
+                            })
                         })
                     })
                 } else {
+                    return resp.send(error('ошибка сервера, попробуйте позже'))
                 }
             })
-
-
         }
     },
 

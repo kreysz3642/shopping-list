@@ -48,7 +48,7 @@ module.exports = {
                 return resp.json(myError("Такого пользователя не существует"))
             }
 
-            resp.send('sdfsdfsdf')
+            resp.send('')
         })
     }
 }
